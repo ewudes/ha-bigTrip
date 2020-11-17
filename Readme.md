@@ -1,7 +1,7 @@
 # Проект «Большое путешествие» [![Build status][travis-image]][travis-url]
 
-* Студент: [Алексей Гунчин](https://up.htmlacademy.ru/ecmascript/13/user/68098).
-* Наставник: `Неизвестно`.
+- Студент: [Алексей Гунчин](https://up.htmlacademy.ru/ecmascript/13/user/68098).
+- Наставник: [Владимир Турецкий](https://up.htmlacademy.ru/ecmascript/13/user/439019).
 
 ---
 
