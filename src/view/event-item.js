@@ -1,6 +1,4 @@
 export const createEventItem = (event) => {
-  const hour = 60;
-  const day = 1440;
   const {
     type,
     price,
@@ -10,29 +8,6 @@ export const createEventItem = (event) => {
     isFavorite,
     offers
   } = event;
-  const monthDay = startTime.format(`MMM DD`);
-  const fullStartDate = startTime.format(`YYYY-MM-DDTHH:mm`);
-  const hoursMinutesStart = startTime.format(`HH:mm`);
-  const hoursMinutesEnd = endTime.format(`HH:mm`);
-  const fullEndDay = endTime.format(`YYYY-MM-DDTHH:mm`);
-  const totalMinutes = endTime.diff(startTime, `minute`);
-  const totalHours = Math.floor(totalMinutes / hour);
-  const totalDays = Math.floor(totalMinutes / day);
-  const minutesLeft = totalMinutes - totalHours * 60;
-  const hoursLeft = totalHours - totalDays * 24;
-  const daysLeft = totalDays;
-  const minutesLeftFormatted = minutesLeft.toString().padStart(2, `0`);
-  const hoursLeftFormatted = hoursLeft.toString().padStart(2, `0`);
-  const dayLeftFormatted = daysLeft.toString().padStart(2, `0`);
-
-  let duration;
-  if (daysLeft > 0) {
-    duration = `${dayLeftFormatted}D ${hoursLeftFormatted}H ${minutesLeftFormatted}M`;
-  } else if (hoursLeft > 0) {
-    duration = `${hoursLeftFormatted}H ${minutesLeftFormatted}M`;
-  } else if (minutesLeft > 0) {
-    duration = `${minutesLeftFormatted}M`;
-  }
 
   const favorite = isFavorite === true ? `event__favorite-btn--active` : ``;
 

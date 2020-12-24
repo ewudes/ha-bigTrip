@@ -24,10 +24,6 @@ for (event of events) {
 
 const routeList = Array.from(route).join(` &mdash; `);
 
-const render = (container, template, place) => {
-  container.insertAdjacentHTML(place, template);
-};
-
 const tripMainElement = document.querySelector(`.trip-main`);
 const pageMainElement = document.querySelector(`.page-main`);
 const tripControlsElement = tripMainElement.querySelector(`.trip-controls`);
