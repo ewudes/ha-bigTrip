@@ -1,4 +1,6 @@
-export const createEventItem = (event) => {
+import {createElement, createEventDate} from "../utils";
+
+const createEventItem = (event) => {
   const {
     type,
     price,
@@ -8,7 +10,7 @@ export const createEventItem = (event) => {
     isFavorite,
     offers
   } = event;
-
+  const date = createEventDate(startTime, endTime);
   const favorite = isFavorite === true ? `event__favorite-btn--active` : ``;
 
   const renderOffer = () => {
@@ -29,18 +31,18 @@ export const createEventItem = (event) => {
 
   return `<li class="trip-events__item">
     <div class="event">
-      <time class="event__date" datetime="2019-03-20">${monthDay}</time>
+      <time class="event__date" datetime="2019-03-20">${date.monthDay}</time>
       <div class="event__type">
         <img class="event__type-icon" width="42" height="42" src="img/icons/${type}.png" alt="Event type icon">
       </div>
       <h3 class="event__title">${type} ${destination}</h3>
       <div class="event__schedule">
         <p class="event__time">
-          <time class="event__start-time" datetime="${fullStartDate}">${hoursMinutesStart}</time>
+          <time class="event__start-time" datetime="${date.fullStartDate}">${date.hoursMinutesStart}</time>
           &mdash;
-          <time class="event__end-time" datetime="${fullEndDay}">${hoursMinutesEnd}</time>
+          <time class="event__end-time" datetime="${date.fullEndDay}">${date.hoursMinutesEnd}</time>
         </p>
-        <p class="event__duration">${duration}</p>
+        <p class="event__duration">${date.duration}</p>
       </div>
       <p class="event__price">
         &euro;&nbsp;<span class="event__price-value">${price}</span>
@@ -61,3 +63,26 @@ export const createEventItem = (event) => {
     </div>
   </li>`;
 };
+
+export default class EventItem {
+  constructor(event) {
+    this._event = event;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createEventItem(this._event);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

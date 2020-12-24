@@ -7,6 +7,7 @@ import { createEventList } from "./view/event-list.js";
 import { createEventItem } from "./view/event-item.js";
 import { editEventItem } from "./view/edit-event-item.js";
 import { getEvent } from "./mock/event";
+import {render, positionRender} from "./utils";
 
 const COUNT_EVENT = 15;
 
