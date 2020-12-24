@@ -45,7 +45,7 @@ export const createEventDate = (startTime, endTime) => {
 export const positionRender = {
   BEFOREEND: `beforeend`,
   AFTERBEGIN: `afterbegin`
-}
+};
 
 export const render = (container, element, place) => {
   switch (place) {
@@ -67,4 +67,4 @@ export const createElement = (template) => {
   newElement.innerHTML = template;
 
   return newElement.firstChild;
-}
+};
