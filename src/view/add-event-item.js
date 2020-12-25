@@ -1,7 +1,8 @@
 import dayjs from "dayjs";
-import {renderOffer} from "./event-offer";
+import EventOffer from "./event-offer";
+import {createElement} from "../utils";
 
-export const addEventItem = (event) => {
+const addEventItem = (event) => {
   const startTime = dayjs(event.startTime).format(`DD/MM/YY HH:mm`);
   const endTime = dayjs(event.endTime).format(`DD/MM/YY HH:mm`);
   const renderPhotos = () => {
@@ -95,7 +96,7 @@ export const addEventItem = (event) => {
       <section class="event__details">
         <section class="event__section  event__section--offers">
           <h3 class="event__section-title  event__section-title--offers">Offers</h3>
-          <div class="event__available-offers">${renderOffer(event)}</div>
+          <div class="event__available-offers">${new EventOffer(event).getTemplate()}</div>
         </section>
         <section class="event__section  event__section--destination">
           <h3 class="event__section-title  event__section-title--destination">Destination</h3>
@@ -108,3 +109,26 @@ export const addEventItem = (event) => {
     </form>
   </li>`;
 };
+
+export default class AddEventItem {
+  constructor(event) {
+    this._event = event;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return addEventItem(this._event);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

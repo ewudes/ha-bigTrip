@@ -1,4 +1,6 @@
-export const createTripInfo = (events, routeList) => {
+import {createElement} from "../utils";
+
+const createTripInfo = (events, routeList) => {
   const startDate = events[0].startTime.format(`MMM DD`);
   const endDate = events[events.length - 1].startTime.format(`DD`);
 
@@ -10,3 +12,27 @@ export const createTripInfo = (events, routeList) => {
     </div>
   </section>`;
 };
+
+export default class TripInfo {
+  constructor(events, routeList) {
+    this._events = events;
+    this._routeList = routeList;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createTripInfo(this._events, this._routeList);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

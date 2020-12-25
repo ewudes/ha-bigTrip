@@ -1,4 +1,6 @@
-export const renderOffer = (event) => {
+import {createElement} from "../utils";
+
+const renderOffer = (event) => {
   return event.offers
     .map((offer) => {
       const checked = offer.checked === true ? `checked` : ``;
@@ -13,3 +15,26 @@ export const renderOffer = (event) => {
       </div>`;
     }).join(``);
 };
+
+export default class EventOffer {
+  constructor(event) {
+    this._event = event;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return renderOffer(this._event);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
