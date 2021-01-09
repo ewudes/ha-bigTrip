@@ -61,12 +61,11 @@ const renderItem = (listItem, item) => {
       document.removeEventListener(`keydown`, onEscKeyDown);
     }
   };
-  itemComponent.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, () => {
+  itemComponent.setEditClickHandler(() => {
     replaceItemToForm();
     document.addEventListener(`keydown`, onEscKeyDown);
   });
-  itemEditComponent.getElement().addEventListener(`submit`, (evt) => {
-    evt.preventDefault();
+  itemEditComponent.setFormSubmitHandler(() => {
     replaceFormToItem();
     document.removeEventListener(`keydown`, onEscKeyDown);
   });

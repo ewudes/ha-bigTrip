@@ -1,4 +1,4 @@
-import {createElement} from "../utils/utils";
+import Abstract from "./abstract";
 
 const createTripInfo = (events, routeList) => {
   const startDate = events[0].startTime.format(`MMM DD`);
@@ -13,26 +13,14 @@ const createTripInfo = (events, routeList) => {
   </section>`;
 };
 
-export default class TripInfo {
+export default class TripInfo extends Abstract {
   constructor(events, routeList) {
+    super();
     this._events = events;
     this._routeList = routeList;
-    this._element = null;
   }
 
   getTemplate() {
     return createTripInfo(this._events, this._routeList);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

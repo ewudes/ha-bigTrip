@@ -1,6 +1,6 @@
 import EventOffer from "./event-offer";
 import dayjs from "dayjs";
-import {createElement} from "../utils/utils";
+import Abstract from "./abstract";
 
 const editEventItem = (event) => {
   const startTime = dayjs(event.startTime).format(`DD/MM/YY HH:mm`);
@@ -104,25 +104,35 @@ const editEventItem = (event) => {
   </li>`;
 };
 
-export default class EditEventItem {
+export default class EditEventItem extends Abstract {
   constructor(event) {
+    super();
     this._event = event;
-    this._element = null;
+    this._formSubmitHandler = this._formSubmitHandler.bind(this);
+    this._editClickHandler = this._editClickHandler.bind(this);
   }
 
   getTemplate() {
     return editEventItem(this._event);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
+  _formSubmitHandler(evt) {
+    evt.preventDefault();
+    this._callback.formSubmit();
   }
 
-  removeElement() {
-    this._element = null;
+  _editClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.editClick();
+  }
+
+  setFormSubmitHandler(callback) {
+    this._callback.formSubmit = callback;
+    this.getElement().addEventListener(`submit`, this._formSubmitHandler);
+  }
+
+  setEditClickHandler(callback) {
+    this._callback.editClick = callback;
+    this.getElement().querySelector(`.event_rollup-btn`).addEventListener(`click`, this._editClickHandler);
   }
 }
