@@ -41,30 +41,3 @@ export const createEventDate = (startTime, endTime) => {
     duration
   };
 };
-
-export const positionRender = {
-  BEFOREEND: `beforeend`,
-  AFTERBEGIN: `afterbegin`
-};
-
-export const render = (container, element, place) => {
-  switch (place) {
-    case positionRender.AFTERBEGIN:
-      container.prepend(element);
-      break;
-    case positionRender.BEFOREEND:
-      container.append(element);
-      break;
-  }
-};
-
-export const renderTemplate = (container, template, place) => {
-  container.insertAdjacentHTML(place, template);
-};
-
-export const createElement = (template) => {
-  const newElement = document.createElement(`div`);
-  newElement.innerHTML = template;
-
-  return newElement.firstChild;
-};

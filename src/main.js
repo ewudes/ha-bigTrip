@@ -8,7 +8,7 @@ import EventItem from "./view/event-item";
 import EditEventItem from "./view/edit-event-item";
 import NoItem from "./view/no-event-item";
 import {getEvent} from "./mock/event";
-import {render, positionRender} from "./utils/utils";
+import {render, positionRender, replace} from "./utils/render";
 import {COUNT_EVENT} from "./const";
 
 
@@ -28,10 +28,10 @@ const routeList = Array.from(route).join(` &mdash; `);
 
 const tripMainElement = document.querySelector(`.trip-main`);
 const pageMainElement = document.querySelector(`.page-main`);
-const tripControlsElement = tripMainElement.querySelector(`.trip-controls`);
+const tripControlsElement = tripMainElement.querySelector(`.trip-controls`)
 
-render(tripControlsElement, new TripTabs().getElement(), positionRender.AFTERBEGIN);
-render(tripControlsElement, new TripFilter().getElement(), positionRender.BEFOREEND);
+render(tripControlsElement, new TripTabs(), positionRender.AFTERBEGIN);
+render(tripControlsElement, new TripFilter(), positionRender.BEFOREEND);
 
 const tripEventsElement = pageMainElement.querySelector(`.trip-events`);
 
@@ -40,19 +40,19 @@ const renderTripInfo = (item) => {
     return;
   }
 
-  render(tripMainElement, new TripInfo(item, routeList).getElement(), positionRender.AFTERBEGIN);
+  render(tripMainElement, new TripInfo(item, routeList), positionRender.AFTERBEGIN);
   const tripInfoElement = tripMainElement.querySelector(`.trip-info`);
-  render(tripInfoElement, new TripCost(item).getElement(), positionRender.BEFOREEND);
+  render(tripInfoElement, new TripCost(item), positionRender.BEFOREEND);
 };
 
 const renderItem = (listItem, item) => {
   const itemComponent = new EventItem(item);
   const itemEditComponent = new EditEventItem(item);
   const replaceItemToForm = () => {
-    listItem.replaceChild(itemEditComponent.getElement(), itemComponent.getElement());
+    replace(itemEditComponent, itemComponent);
   };
   const replaceFormToItem = () => {
-    listItem.replaceChild(itemComponent.getElement(), itemEditComponent.getElement());
+    replace(itemComponent, itemEditComponent);
   };
   const onEscKeyDown = (evt) => {
     if (evt.key === `Escape` || evt.key === `Esc`) {
@@ -69,19 +69,19 @@ const renderItem = (listItem, item) => {
     replaceFormToItem();
     document.removeEventListener(`keydown`, onEscKeyDown);
   });
-  render(listItem, itemComponent.getElement(), positionRender.BEFOREEND);
+  render(listItem, itemComponent, positionRender.BEFOREEND);
 };
 
 const renderList = (itemContainer, items) => {
   const listItem = new EventList();
   if (items.length === 0) {
-    render(itemContainer, new NoItem().getElement(), positionRender.AFTERBEGIN);
+    render(itemContainer, new NoItem(), positionRender.AFTERBEGIN);
     return;
   }
   renderTripInfo(items);
-  render(itemContainer, new TripSort().getElement(), positionRender.AFTERBEGIN);
-  render(itemContainer, listItem.getElement(), positionRender.BEFOREEND);
-  items.forEach((item) => renderItem(listItem.getElement(), item));
+  render(itemContainer, new TripSort(), positionRender.AFTERBEGIN);
+  render(itemContainer, listItem, positionRender.BEFOREEND);
+  items.forEach((item) => renderItem(listItem, item));
 };
 
 renderList(tripEventsElement, events);
