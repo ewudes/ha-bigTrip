@@ -1,4 +1,4 @@
-import {createElement} from "../utils";
+import {createElement} from "../utils/utils";
 
 const createTripSort = () => {
   return `<form class="trip-events__trip-sort  trip-sort" action="#" method="get">

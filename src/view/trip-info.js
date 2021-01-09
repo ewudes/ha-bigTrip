@@ -1,4 +1,4 @@
-import {createElement} from "../utils";
+import {createElement} from "../utils/utils";
 
 const createTripInfo = (events, routeList) => {
   const startDate = events[0].startTime.format(`MMM DD`);

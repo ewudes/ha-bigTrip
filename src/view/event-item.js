@@ -1,4 +1,4 @@
-import {createElement, createEventDate} from "../utils";
+import {createElement, createEventDate} from "../utils/utils";
 
 const createEventItem = (event) => {
   const {

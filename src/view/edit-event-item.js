@@ -1,6 +1,6 @@
 import EventOffer from "./event-offer";
 import dayjs from "dayjs";
-import {createElement} from "../utils";
+import {createElement} from "../utils/utils";
 
 const editEventItem = (event) => {
   const startTime = dayjs(event.startTime).format(`DD/MM/YY HH:mm`);

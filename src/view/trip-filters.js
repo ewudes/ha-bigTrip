@@ -1,4 +1,4 @@
-import {createElement} from "../utils";
+import {createElement} from "../utils/utils";
 
 const createTripFilters = () => {
   return `<form class="trip-filters" action="#" method="get">

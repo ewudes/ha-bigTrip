@@ -8,7 +8,7 @@ import EventItem from "./view/event-item";
 import EditEventItem from "./view/edit-event-item";
 import NoItem from "./view/no-event-item";
 import {getEvent} from "./mock/event";
-import {render, positionRender} from "./utils";
+import {render, positionRender} from "./utils/utils";
 import {COUNT_EVENT} from "./const";
 
 
