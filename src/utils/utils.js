@@ -1,4 +1,4 @@
-import {HOUR, DAY} from "./const";
+import {HOUR, DAY} from "../const";
 
 export const getRandomInteger = (a = 0, b = 1) => {
   const lower = Math.ceil(Math.min(a, b));
@@ -40,31 +40,4 @@ export const createEventDate = (startTime, endTime) => {
     fullEndDay,
     duration
   };
-};
-
-export const positionRender = {
-  BEFOREEND: `beforeend`,
-  AFTERBEGIN: `afterbegin`
-};
-
-export const render = (container, element, place) => {
-  switch (place) {
-    case positionRender.AFTERBEGIN:
-      container.prepend(element);
-      break;
-    case positionRender.BEFOREEND:
-      container.append(element);
-      break;
-  }
-};
-
-export const renderTemplate = (container, template, place) => {
-  container.insertAdjacentHTML(place, template);
-};
-
-export const createElement = (template) => {
-  const newElement = document.createElement(`div`);
-  newElement.innerHTML = template;
-
-  return newElement.firstChild;
 };

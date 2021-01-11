@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import EventOffer from "./event-offer";
-import {createElement} from "../utils";
+import Abstract from "./abstract";
 
 const addEventItem = (event) => {
   const startTime = dayjs(event.startTime).format(`DD/MM/YY HH:mm`);
@@ -110,25 +110,13 @@ const addEventItem = (event) => {
   </li>`;
 };
 
-export default class AddEventItem {
+export default class AddEventItem extends Abstract {
   constructor(event) {
+    super();
     this._event = event;
-    this._element = null;
   }
 
   getTemplate() {
     return addEventItem(this._event);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
