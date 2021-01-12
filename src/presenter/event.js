@@ -1,5 +1,5 @@
 import EventItem from "../view/event-item";
-import EditEventView from "../view/edit-event-item";
+import EditEventItem from "../view/edit-event-item";
 import {render, replace, remove, positionRender} from "../utils/render";
 import {isEscPushed} from "../utils/utils";
 
@@ -25,14 +25,14 @@ export default class Event {
     this._escKeyDownHandler = this._escKeyDownHandler.bind(this);
   }
 
-  itit(event, isOpen) {
+  init(event, isOpen) {
     this._event = event;
 
     const prevEventComponent = this._eventComponent;
     const prevEventEditComponent = this._eventEditComponent;
 
     this._eventComponent = new EventItem(event);
-    this._eventEditComponent = new EditEventView(event);
+    this._eventEditComponent = new EditEventItem(event);
 
     this._eventComponent.setEditClickHandler(this._handleEditClick);
     this._eventComponent.setFavoriteClickHandler(this._handleFavoriteClick);
@@ -45,7 +45,6 @@ export default class Event {
       if (isOpen) {
         this._replaceEventToForm();
       }
-
       return;
     }
 
@@ -75,6 +74,13 @@ export default class Event {
   _replaceEventToForm() {
     replace(this._eventEditComponent, this._eventComponent);
     document.addEventListener(`keydown`, this._escKeyDownHandler);
+    this._changeMode();
+    this._mode = Mode.EDITING;
+  }
+
+  _replaceFormToEvent() {
+    replace(this._eventComponent, this._eventEditComponent);
+    document.removeEventListener(`keydown`, this._escKeyDownHandler);
     this._mode = Mode.DEFAULT;
   }
 
