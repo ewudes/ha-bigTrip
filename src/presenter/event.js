@@ -87,6 +87,7 @@ export default class Event {
   _escKeyDownHandler(evt) {
     if (isEscPushed(evt)) {
       evt.preventDefault();
+      this._eventEditComponent.reset(this._event);
       this._replaceFormToEvent();
       document.removeEventListener(`keydown`, this._escKeyDownHandler);
     }
@@ -96,11 +97,13 @@ export default class Event {
     this._replaceEventToForm();
   }
 
-  _handleFormSubmit() {
+  _handleFormSubmit(event) {
+    this._changeData(event);
     this._replaceFormToEvent();
   }
 
   _handleEditFormClick() {
+    this._eventEditComponent.reset(this._event);
     this._replaceFormToEvent();
   }
 
