@@ -1,6 +1,6 @@
 import EventOffer from "./event-offer";
 import dayjs from "dayjs";
-import Abstract from "./abstract";
+import Smart from "./smart";
 
 const editEventItem = (event) => {
   const startTime = dayjs(event.startTime).format(`DD/MM/YY HH:mm`);
@@ -104,21 +104,27 @@ const editEventItem = (event) => {
   </li>`;
 };
 
-export default class EditEventItem extends Abstract {
+export default class EditEventItem extends Smart {
   constructor(event) {
     super();
+    this._data = EditEventItem.parseEventToData(event);
     this._event = event;
     this._formSubmitHandler = this._formSubmitHandler.bind(this);
     this._editClickHandler = this._editClickHandler.bind(this);
+    this._priceInputHandler = this._priceInputHandler.bind(this);
+    this._destinationInputHandler = this._destinationInputHandler.bind(this);
+    this._offersChangeHandler = this._offersChangeHandler.bind(this);
+    this._typeChangeHandler = this._typeChangeHandler.bind(this);
+    this._setInnerHandler();
   }
 
   getTemplate() {
-    return editEventItem(this._event);
+    return editEventItem(this._data);
   }
 
   _formSubmitHandler(evt) {
     evt.preventDefault();
-    this._callback.formSubmit(this._event);
+    this._callback.formSubmit(EditEventItem.parseDataToEvent(this._data));
   }
 
   _editClickHandler(evt) {
@@ -134,5 +140,56 @@ export default class EditEventItem extends Abstract {
   setEditClickHandler(callback) {
     this._callback.editClick = callback;
     this.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, this._editClickHandler);
+  }
+
+  static parseEventToData(event) {
+    const data = Object.assign({}, event);
+    data.offers = event.offers.map((offer) => Object.assign({}, offer));
+    return data;
+  }
+
+  static parseDataToEvent(data) {
+    return Object.assign({}, data);
+  }
+
+  _destinationInputHandler(evt) {
+    evt.preventDefault();
+    this.updateData({destination: evt.target.value}, true);
+  }
+
+  _priceInputHandler(evt) {
+    evt.preventDefault();
+    this.updateData({price: evt.target.value}, true);
+  }
+
+  restoreHandlers() {
+    this._setInnerHandler();
+    this.setFormSubmitHandler(this._callback.formSubmit);
+  }
+
+  _setInnerHandler() {
+    this.getElement().querySelector(`.event__input--destination`).addEventListener(`input`, this._destinationInputHandler);
+    this.getElement().querySelector(`.event__input--price`).addEventListener(`input`, this._priceInputHandler);
+    this.getElement().querySelectorAll(`.event__type-input`).forEach((item) => {
+      item.addEventListener(`change`, this._typeChangeHandler);
+    });
+    this.getElement().querySelectorAll(`.event__offer-checkbox`).forEach((item) => {
+      item.addEventListener(`change`, this._offersChangeHandler);
+    });
+  }
+
+  _typeChangeHandler(evt) {
+    this.updateData({type: evt.target.value});
+  }
+
+  _offersChangeHandler(evt) {
+    const splitHyphen = evt.target.id.split(`-`);
+    const index = parseInt(splitHyphen[splitHyphen.length - 1], 10);
+    this._data.offers[index].checked = evt.target.checked;
+    this.updateData({offers: this._data.offers});
+  }
+
+  reset(event) {
+    this.updateData(EditEventItem.parseEventToData(event));
   }
 }

@@ -14,13 +14,12 @@ const createTripInfo = (events, routeList) => {
 };
 
 export default class TripInfo extends Abstract {
-  constructor(events, routeList) {
+  constructor(events) {
     super();
     this._events = events;
-    this._routeList = routeList;
   }
 
   getTemplate() {
-    return createTripInfo(this._events, this._routeList);
+    return createTripInfo(this._events);
   }
 }
