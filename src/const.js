@@ -6,3 +6,4 @@ export const SORT = {
   TIME: `time`,
   PRICE: `price`,
 };
+export const MAX_POINTS = 3;

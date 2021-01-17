@@ -25,7 +25,7 @@ export default class Event {
     this._escKeyDownHandler = this._escKeyDownHandler.bind(this);
   }
 
-  init(event, isOpen) {
+  init(event) {
     this._event = event;
 
     const prevEventComponent = this._eventComponent;
@@ -41,10 +41,6 @@ export default class Event {
 
     if (prevEventComponent === null || prevEventEditComponent === null) {
       render(this._eventListComponent, this._eventComponent, positionRender.BEFOREEND);
-
-      if (isOpen) {
-        this._replaceEventToForm();
-      }
       return;
     }
 
