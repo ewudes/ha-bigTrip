@@ -59,3 +59,13 @@ export const createEventDate = (startTime, endTime) => {
     duration
   };
 };
+
+export const sortEventToPrice = (eventA, eventB) => {
+  return eventB.price - eventA.price;
+};
+
+export const sortEventToTime = (eventA, eventB) => {
+  const timeA = eventA.endTime.diff(eventA.startTime, `minute`);
+  const timeB = eventB.endTime.diff(eventB.startTime, `minute`);
+  return timeB - timeA;
+};

@@ -6,14 +6,16 @@ import TripSort from "../view/trip-sort";
 import EventList from "../view/event-list";
 import NoItem from "../view/no-event-item";
 import Event from "./event";
-import {routeList} from "../main";
+// import {routeList} from "../main";
 import {render, positionRender} from "../utils/render";
-import {updateItem} from "../utils/utils";
+import {updateItem, sortEventToPrice, sortEventToTime} from "../utils/utils";
+import {SORT} from "../const";
 
 export default class Trip {
-  constructor(eventsContainer) {
+  constructor(eventsContainer, events) {
     this._eventsContainer = eventsContainer;
     this._eventPresenter = {};
+    this._currentSort = SORT.DEFAULT;
 
     this._tripTabsComponent = new TripTabs();
     this._tripFilterComponent = new TripFilter();
@@ -23,12 +25,15 @@ export default class Trip {
 
     this._handleEventChange = this._handleEventChange.bind(this);
     this._handleModelChange = this._handleModelChange.bind(this);
+    this._handleSortChange = this._handleSortChange.bind(this);
+    this.init(events);
   }
 
   init(events) {
     this._events = events.slice();
+    this._initialEvents = events.slice();
 
-    this._tripInfo = new TripInfo(events, routeList);
+    this._tripInfo = new TripInfo(events);
 
     if (!this._events.length) {
       render(this._eventsContainer, this._noItemComponent, positionRender.AFTERBEGIN);
@@ -60,6 +65,7 @@ export default class Trip {
 
   _renderSort() {
     render(this._eventsContainer, this._tripSortComponent, positionRender.AFTERBEGIN);
+    this._tripSortComponent.setSortChangeHandler(this._handleSortChange);
   }
 
   _renderEvent(event, isOpen) {
@@ -86,5 +92,30 @@ export default class Trip {
 
   _handleModelChange() {
     Object.values(this._eventPresenter).forEach((presenter) => presenter.resetView());
+  }
+
+  _handleSortChange(type) {
+    if (this._currentSort === type) {
+      return;
+    }
+
+    this._sortEvents(type);
+    this._clearEventList();
+    this._renderEvents();
+  }
+
+  _sortEvents(type) {
+    switch (type) {
+      case SORT.PRICE:
+        this._events.sort(sortEventToPrice);
+        break;
+      case SORT.TIME:
+        this._events.sort(sortEventToTime);
+        break;
+      default:
+        this._events = this._initialEvents.slice();
+    }
+
+    this._currentSort = type;
   }
 }
